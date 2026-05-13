@@ -31,4 +31,19 @@ A collection of code snippets and sample projects demonstrating various aspects 
 
 ### Usage
 
-Run /bin/python3 test_llm.py for llm testing example with qwen3
+Run `/bin/python3 test_llm.py` for llm testing example with qwen3.
+
+### Running the Web Application
+
+To launch the AI Website Summarizer web interface, run the following command:
+
+```bash
+python3 app.py
+```
+
+*Alternatively, you can run it via Uvicorn directly:*
+```bash
+uvicorn app:app --host 0.0.0.0 --port 5000 --reload
+```
+
+Once the server starts, open your browser and navigate to **[http://localhost:5000](http://localhost:5000)**.

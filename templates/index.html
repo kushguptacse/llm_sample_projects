@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Website Summarizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div class="container">
+        <header>
+            <h1>AI Summarizer</h1>
+            <p>Paste any URL below to get an AI-generated summary instantly.</p>
+        </header>
+
+        <form id="summarize-form">
+            <div class="input-group">
+                <input type="url" id="url-input" placeholder="https://example.com" required>
+                <button type="submit" id="submit-btn">
+                    <span class="btn-text">Summarize</span>
+                    <span class="spinner hidden"></span>
+                </button>
+            </div>
+        </form>
+
+        <div id="result-container" class="hidden">
+            <h2>Summary</h2>
+            <div id="summary-content"></div>
+        </div>
+        
+        <div id="error-container" class="hidden">
+            <p id="error-message"></p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="{{ url_for('static', path='script.js') }}"></script>
+</body>
+</html>
