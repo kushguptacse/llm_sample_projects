@@ -33,17 +33,20 @@ A collection of code snippets and sample projects demonstrating various aspects 
 
 Run `/bin/python3 test_llm.py` for llm testing example with qwen3.
 
-### Running the Web Application
+### LLM Notes
 
-To launch the AI Website Summarizer web interface, run the following command:
+1. Common closed source frontier models are 
+    GPT5, 
+    Claude opus4.5, 
+    Gemini 3 pro.
 
-```bash
-python3 app.py
-```
+2. Common open source frontier models are 
+    Qwen 3.6, 
+    LLaMA 3.3, 
+    Llama 4 Maverick,
+    GPT-OSS,
+    DeepSeek-R1
 
-*Alternatively, you can run it via Uvicorn directly:*
-```bash
-uvicorn app:app --host 0.0.0.0 --port 5000 --reload
-```
+3. Models can be executed locally either by using Hugging Face models through the Transformers Python library, or via Ollama, which provides selected models optimized for local deployment.
 
-Once the server starts, open your browser and navigate to **[http://localhost:5000](http://localhost:5000)**.
+4. 
