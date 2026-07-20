@@ -31,3 +31,25 @@ def fetch_website_contents(url: str) -> str:
     except Exception as e:
         print(f"Error fetching {url}: {e}")
         return ""
+
+
+def fetch_website_links(url: str) -> list[str]:
+    try:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=15)
+        response.raise_for_status()
+        
+        soup = BeautifulSoup(response.content, 'html.parser')
+        
+        links = []
+        for link in soup.find_all('a'):
+            href = link.get('href')
+            if href:
+                links.append(href)
+                
+        return links
+    except Exception as e:
+        print(f"Error fetching {url}: {e}")
+        return []

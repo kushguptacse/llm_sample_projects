@@ -48,5 +48,3 @@ Run `/bin/python3 test_llm.py` for llm testing example with qwen3.
     DeepSeek-R1
 
 3. Models can be executed locally either by using Hugging Face models through the Transformers Python library, or via Ollama, which provides selected models optimized for local deployment.
-
-4. 
