@@ -74,8 +74,7 @@ def create_brochure(company_name, url):
         {"role": "system", "content": brochure_system_prompt},
         {"role": "user", "content": get_brochure_user_prompt(company_name, url)}
     ]
-    response = call_chat_api(messages)
-    return response.choices[0].message.content
+    call_chat_api(messages, stream=True)
 
 # invoke create_brochure by taking company_name and url input from  command line 
 if __name__ == "__main__":
@@ -83,7 +82,5 @@ if __name__ == "__main__":
     url = input("Enter company website URL: ").strip()
     if not url.startswith("http"):
         url = f"https://{url}"
-    brochure = create_brochure(company_name, url)
-    print(brochure)
-    print("\n--- Brochure created successfully ---")   
+    create_brochure(company_name, url)
     
