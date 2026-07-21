@@ -71,6 +71,7 @@ use this information to build a short brochure of the company in markdown withou
 
 def create_brochure(company_name, url):
     messages = [
+        {"role": "system", "content": brochure_system_prompt},
         {"role": "user", "content": get_brochure_user_prompt(company_name, url)}
     ]
     response = call_chat_api(messages)
@@ -82,8 +83,6 @@ if __name__ == "__main__":
     url = input("Enter company website URL: ").strip()
     if not url.startswith("http"):
         url = f"https://{url}"
-    print(f"\n--- Creating Brochure for {company_name} at {url} ---")
-    print("--------------------------\n")
     brochure = create_brochure(company_name, url)
     print(brochure)
     print("\n--- Brochure created successfully ---")   
