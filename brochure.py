@@ -82,4 +82,9 @@ if __name__ == "__main__":
     url = input("Enter company website URL: ").strip()
     if not url.startswith("http"):
         url = f"https://{url}"
-    print(create_brochure(company_name, url))
+    print(f"\n--- Creating Brochure for {company_name} at {url} ---")
+    print("--------------------------\n")
+    brochure = create_brochure(company_name, url)
+    print(brochure)
+    print("\n--- Brochure created successfully ---")   
+    
