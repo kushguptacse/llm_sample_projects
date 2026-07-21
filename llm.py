@@ -3,7 +3,7 @@ import os
 from config import API_URL, CHAT_COMPLETIONS_API_KEY, LLM_MODEL_NAME, LLM_TEMPERATURE, MAX_TOKEN
 import openai
 
-openai.api_key = os.getenv("CHAT_COMPLETIONS_API_KEY","OTA3ZDRmOTYtMDRiZC00MzI5LTk1NGEtMTc5YWY2YzQ0ODFkOnp2ZGExNDM1YmM0MDY5YWY=")
+openai.api_key = os.getenv("CHAT_COMPLETIONS_API_KEY")
 openai.base_url = os.getenv("API_URL","https://qwen3-spc-ap-northeast-1-a.jieum.samsungspc.cloud/v1/")
 
 
