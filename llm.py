@@ -39,10 +39,17 @@ def sanitize_messages(messages):
     return sanitized
 
 
-def call_chat_api(messages, tools=[], disable_reasoning=True):
+def call_chat_api(messages, tools=[], disable_reasoning=True, stream=False):
     """
     Calls the LLM API with tools for function calling using OpenAI library.
-    Returns the response object or None on failure.
+    Args:
+        messages: List of chat messages.
+        tools: Optional list of tool definitions for function calling.
+        disable_reasoning: If True, sets reasoning_effort to 'none'.
+        stream: If True, streams the response and returns the full content string.
+                If False (default), returns the full response object.
+    Returns the response object (stream=False) or content string (stream=True),
+    or None on failure.
     """
     messages = sanitize_messages(messages)
     payload = json.dumps(messages)
@@ -53,11 +60,11 @@ def call_chat_api(messages, tools=[], disable_reasoning=True):
         extra_body["reasoning_effort"] = "none"
 
     try:
-        print(f"\n[DEBUG] Calling LLM API with model: {LLM_MODEL_NAME}")
+        print(f"\n[DEBUG] Calling LLM API with model: {LLM_MODEL_NAME} (stream={stream})")
         print(f"[DEBUG] Messages: {json.dumps(messages, indent=2)}")
         if tools:
             print(f"[DEBUG] Tools: {json.dumps(tools, indent=2)}")
-            
+
         response = openai.chat.completions.create(
             model=LLM_MODEL_NAME,
             messages=messages,
@@ -65,7 +72,18 @@ def call_chat_api(messages, tools=[], disable_reasoning=True):
             temperature=LLM_TEMPERATURE,
             max_tokens=MAX_TOKEN,
             extra_body=extra_body,
+            stream=stream,
         )
+
+        if stream:
+            full_content = ""
+            for chunk in response:
+                delta = chunk.choices[0].delta if chunk.choices else None
+                if delta and delta.content:
+                    print(delta.content, end="", flush=True)
+                    full_content += delta.content
+            print()  # newline after streaming output
+            return full_content
 
         usage = getattr(response, "usage", None)
         if usage:
