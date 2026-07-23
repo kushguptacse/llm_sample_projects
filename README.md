@@ -4,9 +4,9 @@ A collection of code snippets and sample projects demonstrating various aspects 
 
 ## 📂 Project Structure
 
-- **Week 1**:
     - `llm.py`: Core LLM client for interacting with the Qwen 3 model.
     - `config.py`: Configuration for API keys, model names, and other settings.
+    - `brochure.py`: Generator script that scrapes a company website and creates a company brochure using LLM.
     - `main.py`: Example usage of the LLM client.
     - `requirements.txt`: Dependencies for the project.
 
@@ -31,7 +31,8 @@ A collection of code snippets and sample projects demonstrating various aspects 
 
 ### Usage
 
-Run `/bin/python3 test_llm.py` for llm testing example with qwen3.
+- Run `/bin/python3 test_llm.py` for llm testing example with qwen3.
+- Run `python brochure.py` to generate a markdown brochure for a company by entering its name and website URL.
 
 ### LLM Notes
 
