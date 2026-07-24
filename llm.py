@@ -94,6 +94,28 @@ def call_chat_api(messages, tools=[], disable_reasoning=True, stream=False):
         print(f"\n[ERROR] Error calling LLM API: {str(e)}")
         return None
 
+def stream_chat_api(messages, disable_reasoning=True):
+    messages = sanitize_messages(messages)
+    extra_body: dict = {}
+    if disable_reasoning:
+        extra_body["reasoning_effort"] = "none"
+
+    try:
+        print(f"\n[DEBUG] Calling LLM API with model: {LLM_MODEL_NAME} (stream=True)")
+        print(f"[DEBUG] Messages: {json.dumps(messages, indent=2)}")
+        return openai.chat.completions.create(
+            model=LLM_MODEL_NAME,
+            messages=messages,
+            temperature=LLM_TEMPERATURE,
+            max_tokens=MAX_TOKEN,
+            extra_body=extra_body,
+            stream=True,
+        )
+    except Exception as e:
+        print(f"\n[ERROR] Error calling LLM API: {str(e)}")
+        return None
+    
+
 #Test Run
 if __name__ == "__main__":
     test_messages = [{'role': 'user', 'content': 'Hello, how are you?'}]
