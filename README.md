@@ -17,10 +17,6 @@ A collection of code snippets and sample projects demonstrating various aspects 
 
 ## 🚀 Getting Started
 
-### Prerequisites
-
-- Python 3.6+
-
 ### Installation
 
 1. Clone the repository:
