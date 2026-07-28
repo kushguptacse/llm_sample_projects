@@ -25,7 +25,7 @@ A collection of code snippets and sample projects demonstrating various aspects 
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/kushguptacse/llm_sample_projects.git
    cd llm_sample_projects
    ```
 
