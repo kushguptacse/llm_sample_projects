@@ -32,7 +32,7 @@ A collection of code snippets and sample projects demonstrating various aspects 
 
 ### Usage
 
-- Run `/bin/python3 test_llm.py` for llm testing example with qwen3.
+- Run `/bin/python3 test_llm.py` for llm testing example with qwen3.6.
 - Run `python brochure.py` to generate a markdown brochure for a company by entering its name and website URL.
 
 ### LLM Notes
