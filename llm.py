@@ -1,10 +1,9 @@
 import json
-import os
 from config import API_URL, CHAT_COMPLETIONS_API_KEY, LLM_MODEL_NAME, LLM_TEMPERATURE, MAX_TOKEN
 import openai
 
-openai.api_key = os.getenv("CHAT_COMPLETIONS_API_KEY")
-openai.base_url = os.getenv("API_URL","https://qwen3-spc-ap-northeast-1-a.jieum.samsungspc.cloud/v1/")
+openai.api_key = CHAT_COMPLETIONS_API_KEY
+openai.base_url = API_URL
 
 
 def _normalize_message(message):
