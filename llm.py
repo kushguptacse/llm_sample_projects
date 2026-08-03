@@ -7,8 +7,28 @@ openai.base_url = API_URL
 
 
 def _normalize_message(message):
+    # Convert OpenAI ChatCompletionMessage objects to dicts
+    if hasattr(message, 'role') and not isinstance(message, dict):
+        msg = {"role": message.role, "content": message.content}
+        if hasattr(message, 'tool_calls') and message.tool_calls:
+            msg["tool_calls"] = [
+                {
+                    "id": tc.id,
+                    "type": tc.type,
+                    "function": {
+                        "name": tc.function.name,
+                        "arguments": tc.function.arguments,
+                    },
+                }
+                for tc in message.tool_calls
+            ]
+        return [msg]
+
     if isinstance(message, dict):
         role = message.get("role")
+        # Tool responses and assistant messages with tool_calls: pass through as-is
+        if role == "tool" or message.get("tool_calls"):
+            return [message]
         content = message.get("content")
         if role is None or content is None:
             return []
@@ -51,8 +71,6 @@ def call_chat_api(messages, tools=[], disable_reasoning=True, stream=False):
     or None on failure.
     """
     messages = sanitize_messages(messages)
-    payload = json.dumps(messages)
-    #print("DEBUG", f"Prompt Length: {len(payload)}")
 
     extra_body: dict = {}
     if disable_reasoning:

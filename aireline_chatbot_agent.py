@@ -35,27 +35,28 @@ def chat_response(message, history):
     history = [{"role":h["role"], "content":h["content"]} for h in history]
     messages.append({"role": "user", "content": f"{message}"})
     response = call_chat_api(messages, tools)
-    if response.choices[0].finish_reason=="tool_calls":
-        response  = handle_tool_call(response.choices[0].message)
+    while response.choices[0].finish_reason=="tool_calls":
         messages.append(response.choices[0].message)
-        messages.append(response)
-        response = call_chat_api(messages)
+        tool_result = handle_tool_call(response.choices[0].message)
+        messages.append(tool_result)
+        response = call_chat_api(messages, tools)
     messages.append({"role": "assistant", "content": f"{response.choices[0].message.content}"})
     return response.choices[0].message.content
 
 def handle_tool_call(message):
     print(f"handle tool call for message {message}")
-    tool_call = message.tool_calls[0]
-    if tool_call.function.name == "get_ticket_price":
-        arguments = json.loads(tool_call.function.arguments)
-        city = arguments.get('destination_city')
-        price_details = get_ticket_price(city)
-        response = {
-            "role": "tool",
-            "content": price_details,
-            "tool_call_id": tool_call.id
-        }
-    return response
+    tool_results = []
+    for tool_call in message.tool_calls:
+        if tool_call.function.name == "get_ticket_price":
+            arguments = json.loads(tool_call.function.arguments)
+            city = arguments.get('destination_city')
+            price_details = get_ticket_price(city)
+            tool_results.append( {
+                "role": "tool",
+                "content": json.dumps(price_details),
+                "tool_call_id": tool_call.id
+            } )
+    return tool_results
     
 
 chat = gr.ChatInterface(fn=chat_response, title="FlyAirline Chatbot Agent")
