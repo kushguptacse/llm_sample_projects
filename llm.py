@@ -131,7 +131,45 @@ def stream_chat_api(messages, disable_reasoning=True):
     except Exception as e:
         print(f"\n[ERROR] Error calling LLM API: {str(e)}")
         return None
-    
+
+
+def call_image_api(base64_image, prompt="Describe this image."):
+    """
+    Calls the LLM API with a base64-encoded image using requests.
+    Args:
+        base64_image: Base64-encoded image string.
+        prompt: Text prompt to send with the image.
+    Returns the response content string or None on failure.
+    """
+    import requests
+
+    try:
+        print(f"\n[DEBUG] Calling LLM API with image (model: {LLM_MODEL_NAME})")
+        response = requests.post(
+            f"{API_URL}chat/completions",
+            headers={"Authorization": f"Bearer {CHAT_COMPLETIONS_API_KEY}"},
+            json={
+                "model": LLM_MODEL_NAME,
+                "messages": [{
+                    "role": "user",
+                    "content": [
+                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}},
+                        {"type": "text", "text": prompt}
+                    ]
+                }]
+            }
+        )
+
+        if response.status_code == 200:
+            return response.json()["choices"][0]["message"]["content"]
+        else:
+            print(f"\n[ERROR] API returned status code {response.status_code}: {response.text}")
+            return None
+    except Exception as e:
+        print(f"\n[ERROR] Error calling image API: {str(e)}")
+        return None
+
+
 
 #Test Run
 if __name__ == "__main__":
